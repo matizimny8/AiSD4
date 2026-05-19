@@ -53,6 +53,7 @@ class Graph:
             nowe_krawedzie.append(edge)
     self.edges = nowe_krawedzie
     self.current_edges_count -= deleted_count
+    nodes_list.remove(nodeToDel)
     while self.current_edges_count <= self.edges_to_create:
       selected_nodes = random.sample(nodes_list,2)
       selected_nodes.sort()
