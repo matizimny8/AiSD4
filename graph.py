@@ -14,7 +14,6 @@ class Graph:
     random.shuffle(nodes_list)
     max_edges = (self.nodes * (self.nodes - 1))//2
     edges_to_create = int((self.saturation / 100.0) * max_edges)
-    possible_edges = []
     for i in range(len(nodes_list)-1):
       self.add_edge(nodes_list[i],nodes_list[i+1])
     self.add_edge(nodes_list[-1],nodes_list[0])
@@ -39,15 +38,20 @@ class Graph:
       edges_list.append([selected_nodes[-1],selected_nodes[0]])
       return edges_list
     
+  def non_hamilton(self):
+    self.hamilton()
+    nodeToDel = self.nodes
+    nowe_krawedzie = []
+    deleted_count = 0
+    for edge in self.edges:
+        if edge[0] == nodeToDel or edge[1] == nodeToDel:
+            licznik_usunietych += 1
+        else:
+            nowe_krawedzie.append(edge)
+    self.edges = nowe_krawedzie
+    self.current_edges_count -= licznik_usunietych
 
   def print_graph(self):
     for start, destination in self.edges:
       print(f"{start} -> {destination}")
     print(f"Saturation: {self.saturation}")
-    # for i in range(1, self.nodes + 1):
-    #   for j in range(1, self.nodes + 1):
-    #     if i != j:
-    #       possible_edges.append((i, j))
-    # selected_edges = random.sample(possible_edges, edges_to_create)
-    # for a,b in selected_edges:
-    #   self.add_edge(a, b)

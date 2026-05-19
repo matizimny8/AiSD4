@@ -30,7 +30,8 @@ def main():
     if nodes<=0:
       print("Nodes count must be greater than 0")
       sys.exit(1)
-    graph = Graph(nodes)
+    graph = Graph(nodes,50)
+    graph.non_hamilton()
   else:
     print("Usage: python main.py --hamilton OR python main.py --non-hamilton")
     sys.exit(1)
