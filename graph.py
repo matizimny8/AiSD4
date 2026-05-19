@@ -64,3 +64,35 @@ class Graph:
     for start, destination in self.edges:
       print(f"{start} -> {destination}")
     print(f"Saturation: {self.saturation}")
+
+  def get_adj_list(self):
+    adj = {i: [] for i in range(1, self.nodes + 1)}
+    for u,v in self.edges:
+      adj[u].append(v)
+      adj[v].append(u)
+    return adj
+  def find_hamiltonian_cycle(self):
+    adj = self.get_adj_list()
+    path = [1]
+    visited = {1}
+
+    def visit(node):
+      if len(path) == self.nodes:
+        if 1 in adj[node]:
+          path.append(1)
+          return True
+        return False
+      for neighbor in adj[node]:
+        if neighbor not in visited:
+          visited.add(neighbor)
+          path.append(neighbor)
+          if visit(neighbor):
+            return True
+          visited.remove(neighbor)
+          path.pop()
+      return False
+
+    if visit(1):
+      return path
+    else:
+      return None

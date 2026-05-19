@@ -44,7 +44,11 @@ def main():
     elif action == "euler":
       print()
     elif action == "hamilton":
-      print()
+      path = graph.find_hamiltonian_cycle()
+      if path:
+        print(f"Found hamiltonian cycle: {path}")
+      else:
+        print("Hamiltonian cycle not found")
     elif action in ["exit", "quit"]:
       print("Exiting...")
       break
