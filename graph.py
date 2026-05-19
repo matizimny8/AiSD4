@@ -56,7 +56,7 @@ class Graph:
     while self.current_edges_count <= self.edges_to_create:
       selected_nodes = random.sample(nodes_list,2)
       selected_nodes.sort()
-      if (selected_nodes) not in self.edges:
+      if tuple(selected_nodes) not in self.edges:
         self.add_edge(selected_nodes[0],selected_nodes[1])
     
   def print_graph(self):

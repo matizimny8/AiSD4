@@ -41,9 +41,9 @@ def main():
     # TODO: Komendy menu
     if action == "print":
       graph.print_graph()
-    if action == "euler":
+    elif action == "euler":
       print()
-    if action == "hamilton":
+    elif action == "hamilton":
       print()
     elif action in ["exit", "quit"]:
       print("Exiting...")
