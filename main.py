@@ -15,8 +15,8 @@ def main():
   graph = None
   if action == "--hamilton":
     nodes = int(get_input("nodes> "))
-    if nodes<=0:
-      print("Nodes count must be greater than 0")
+    if nodes<=10:
+      print("Nodes count must be greater than 10")
       sys.exit(1)
     saturation = int(get_input("saturation> (0 - 100) "))
     if saturation < 0 or saturation > 100:
