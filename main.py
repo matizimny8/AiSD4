@@ -22,7 +22,8 @@ def main():
     if saturation < 0 or saturation > 100:
       print("Saturation must be between 0 and 100")
       sys.exit(1)
-    graph = Graph(nodes)
+    graph = Graph(nodes,saturation)
+    graph.hamilton()
 
   elif action == "--non-hamilton":
     nodes = int(get_input("nodes> "))
@@ -38,7 +39,7 @@ def main():
     action = get_input("action> ").strip().lower()
     # TODO: Komendy menu
     if action == "print":
-      print()
+      graph.print_graph()
     if action == "euler":
       print()
     if action == "hamilton":
