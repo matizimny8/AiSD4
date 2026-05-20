@@ -15,8 +15,8 @@ def main():
   graph = None
   if action == "--hamilton":
     nodes = int(get_input("nodes> "))
-    if nodes<=0:
-      print("Nodes count must be greater than 0")
+    if nodes<=10:
+      print("Nodes count must be greater than 10")
       sys.exit(1)
     saturation = int(get_input("saturation> (0 - 100) "))
     if saturation < 0 or saturation > 100:
@@ -30,7 +30,8 @@ def main():
     if nodes<=0:
       print("Nodes count must be greater than 0")
       sys.exit(1)
-    graph = Graph(nodes)
+    graph = Graph(nodes,50)
+    graph.non_hamilton()
   else:
     print("Usage: python main.py --hamilton OR python main.py --non-hamilton")
     sys.exit(1)
@@ -40,10 +41,14 @@ def main():
     # TODO: Komendy menu
     if action == "print":
       graph.print_graph()
-    if action == "euler":
+    elif action == "euler":
       print()
-    if action == "hamilton":
-      print()
+    elif action == "hamilton":
+      path = graph.find_hamiltonian_cycle()
+      if path:
+        print(f"Found hamiltonian cycle: {path}")
+      else:
+        print("Hamiltonian cycle not found")
     elif action in ["exit", "quit"]:
       print("Exiting...")
       break

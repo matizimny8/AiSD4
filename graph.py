@@ -6,6 +6,8 @@ class Graph:
     self.edges = []
     self.saturation = saturation
     self.current_edges_count = 0
+    self.edges_to_create = 0
+    
   def add_edge(self, a, b):
     self.edges.append((min(a,b),max(a,b)))
     self.current_edges_count+=1
@@ -14,8 +16,7 @@ class Graph:
     nodes_list = [i for i in range (1,self.nodes+1)]
     random.shuffle(nodes_list)
     max_edges = (self.nodes * (self.nodes - 1))//2
-    edges_to_create = int((self.saturation / 100.0) * max_edges)
-    possible_edges = [] 
+    self.edges_to_create = int((self.saturation / 100.0) * max_edges)
     for i in range(len(nodes_list)-1):
       self.add_edge(nodes_list[i],nodes_list[i+1])
     self.add_edge(nodes_list[-1],nodes_list[0])
@@ -43,15 +44,59 @@ class Graph:
       edges_list.append([selected_nodes[-1],selected_nodes[0]])
       return edges_list
     
-
+  def non_hamilton(self):
+    self.hamilton()
+    nodeToDel = self.nodes
+    nowe_krawedzie = []
+    deleted_count = 0
+    nodes_list = [i for i in range (1,self.nodes+1)]
+    for edge in self.edges:
+        if edge[0] == nodeToDel or edge[1] == nodeToDel:
+            deleted_count += 1
+        else:
+            nowe_krawedzie.append(edge)
+    self.edges = nowe_krawedzie
+    self.current_edges_count -= deleted_count
+    nodes_list.remove(nodeToDel)
+    while self.current_edges_count <= self.edges_to_create:
+      selected_nodes = random.sample(nodes_list,2)
+      selected_nodes.sort()
+      if tuple(selected_nodes) not in self.edges:
+        self.add_edge(selected_nodes[0],selected_nodes[1])
+    
   def print_graph(self):
     for start, destination in self.edges:
       print(f"{start} -> {destination}")
     print(f"Saturation: {self.saturation}")
-    # for i in range(1, self.nodes + 1):
-    #   for j in range(1, self.nodes + 1):
-    #     if i != j:
-    #       possible_edges.append((i, j))
-    # selected_edges = random.sample(possible_edges, edges_to_create)
-    # for a,b in selected_edges:
-    #   self.add_edge(a, b)
+
+  def get_adj_list(self):
+    adj = {i: [] for i in range(1, self.nodes + 1)}
+    for u,v in self.edges:
+      adj[u].append(v)
+      adj[v].append(u)
+    return adj
+  def find_hamiltonian_cycle(self):
+    adj = self.get_adj_list()
+    path = [1]
+    visited = {1}
+
+    def visit(node):
+      if len(path) == self.nodes:
+        if 1 in adj[node]:
+          path.append(1)
+          return True
+        return False
+      for neighbor in adj[node]:
+        if neighbor not in visited:
+          visited.add(neighbor)
+          path.append(neighbor)
+          if visit(neighbor):
+            return True
+          visited.remove(neighbor)
+          path.pop()
+      return False
+
+    if visit(1):
+      return path
+    else:
+      return None
