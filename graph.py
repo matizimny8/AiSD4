@@ -1,4 +1,5 @@
 import random
+import itertools
 class Graph:
   def __init__(self, nodes, saturation):
     self.nodes = nodes
@@ -14,17 +15,20 @@ class Graph:
     random.shuffle(nodes_list)
     max_edges = (self.nodes * (self.nodes - 1))//2
     edges_to_create = int((self.saturation / 100.0) * max_edges)
-    possible_edges = []
+    possible_edges = [] 
     for i in range(len(nodes_list)-1):
       self.add_edge(nodes_list[i],nodes_list[i+1])
     self.add_edge(nodes_list[-1],nodes_list[0])
-    while self.current_edges_count+3 <= edges_to_create:
-      selected_nodes = random.sample(nodes_list,3)
-      edges_list = self.check_if_edges_exist(selected_nodes)
-      if edges_list != 0:
-        for node1, node2 in edges_list:
-          self.add_edge(node1,node2)
-
+    # while self.current_edges_count+3 <= edges_to_create:
+    #   selected_nodes = random.sample(nodes_list,3)
+    #   edges_list = self.check_if_edges_exist(selected_nodes)
+    #   if edges_list != 0:
+    #     for node1, node2 in edges_list:
+    #       self.add_edge(node1,node2)
+    all_cycles = list(itertools.combinations(nodes_list,3))
+    random.shuffle(all_cycles)
+    while self.current_edges_count+3<=edges_to_create:
+      pass
   def check_if_edges_exist(self, selected_nodes):
     edges_list = []
     for i in range(len(selected_nodes)-1):
