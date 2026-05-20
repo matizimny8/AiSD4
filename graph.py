@@ -23,7 +23,7 @@ class Graph:
     all_cycles = list(itertools.combinations(nodes_list,3))
     random.shuffle(all_cycles)
     for cycle in all_cycles:
-      if self.current_edges_count + 2 > self.edges_to_create:
+      if self.current_edges_count + 3 > self.edges_to_create:
         break
       edges_list = self.check_if_edges_exist(cycle)
       if edges_list!=0:
