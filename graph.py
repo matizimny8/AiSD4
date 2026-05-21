@@ -47,18 +47,18 @@ class Graph:
     
   def non_hamilton(self):
     self.hamilton()
-    nodeToDel = self.nodes
-    nowe_krawedzie = []
+    node_to_del = self.nodes
+    new_edges = []
     deleted_count = 0
     nodes_list = [i for i in range (1,self.nodes+1)]
     for edge in self.edges:
-        if edge[0] == nodeToDel or edge[1] == nodeToDel:
+        if edge[0] == node_to_del or edge[1] == node_to_del:
             deleted_count += 1
         else:
-            nowe_krawedzie.append(edge)
-    self.edges = nowe_krawedzie
+            new_edges.append(edge)
+    self.edges = new_edges
     self.current_edges_count -= deleted_count
-    nodes_list.remove(nodeToDel)
+    nodes_list.remove(node_to_del)
     while self.current_edges_count <= self.edges_to_create:
       selected_nodes = random.sample(nodes_list,2)
       selected_nodes.sort()
@@ -78,6 +78,9 @@ class Graph:
     return adj
   def find_hamiltonian_cycle(self):
     adj = self.get_adj_list()
+    for v in adj.values():
+      if len(v) < 2:
+        return None
     path = [1]
     visited = {1}
 

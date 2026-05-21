@@ -1,6 +1,6 @@
 import sys
 from graph import Graph
-
+DEFAULT_NON_HAMILTON_SATURATION = 50
 def get_input(prompt):
   if sys.stdin.isatty():
     return input(prompt)
@@ -14,11 +14,19 @@ def main():
   action = sys.argv[1]
   graph = None
   if action == "--hamilton":
-    nodes = int(get_input("nodes> "))
+    try:
+      nodes = int(get_input("nodes> "))
+    except (ValueError, KeyboardInterrupt, EOFError):
+      print("Nodes must be an integer.")
+      sys.exit(1)
     if nodes<=10:
       print("Nodes count must be greater than 10")
       sys.exit(1)
-    saturation = int(get_input("saturation> (0 - 100) "))
+    try:
+      saturation = int(get_input("saturation> (0 - 100) "))
+    except (ValueError, KeyboardInterrupt, EOFError):
+      print("Saturation must be an integer")
+      sys.exit(1)
     if saturation < 0 or saturation > 100:
       print("Saturation must be between 0 and 100")
       sys.exit(1)
@@ -26,19 +34,25 @@ def main():
     graph.hamilton()
 
   elif action == "--non-hamilton":
-    nodes = int(get_input("nodes> "))
+    try:
+      nodes = int(get_input("nodes> "))
+    except (ValueError, KeyboardInterrupt, EOFError):
+      print("Nodes counts must be an integer")
+      sys.exit(1)
     if nodes<=0:
       print("Nodes count must be greater than 0")
       sys.exit(1)
-    graph = Graph(nodes,50)
+    graph = Graph(nodes, DEFAULT_NON_HAMILTON_SATURATION)
     graph.non_hamilton()
   else:
     print("Usage: python main.py --hamilton OR python main.py --non-hamilton")
     sys.exit(1)
 
   while True:
-    action = get_input("action> ").strip().lower()
-    # TODO: Komendy menu
+    try:
+      action = get_input("action> ").strip().lower()
+    except (EOFError, KeyboardInterrupt):
+      break
     if action == "print":
       graph.print_graph()
     elif action == "euler":
@@ -53,9 +67,19 @@ def main():
         print(f"Found hamiltonian cycle: {path}")
       else:
         print("Hamiltonian cycle not found")
+    elif action == "help":
+      print("""Available commands:
+    print - print current graph
+    euler - check if euler cycle exists in current graph
+    hamilton - check if hamiltonian cycle exists in current graph
+    help - show this message
+    exit - exit program""")
     elif action in ["exit", "quit"]:
-      print("Exiting...")
       break
+    else:
+      print(f"Unknown command: {action}. Use 'help' to see available commands")
+      continue
+  print("Exiting...")
 
 
 if __name__ == "__main__":
