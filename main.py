@@ -16,16 +16,22 @@ def main():
   if action == "--hamilton":
     try:
       nodes = int(get_input("nodes> "))
-    except (ValueError, KeyboardInterrupt, EOFError):
+    except (ValueError) :
       print("Nodes must be an integer.")
+      sys.exit(1)
+    except(KeyboardInterrupt, EOFError):
+      print("\nExiting...")
       sys.exit(1)
     if nodes<=10:
       print("Nodes count must be greater than 10")
       sys.exit(1)
     try:
       saturation = int(get_input("saturation> (0 - 100) "))
-    except (ValueError, KeyboardInterrupt, EOFError):
+    except (ValueError):
       print("Saturation must be an integer")
+      sys.exit(1)
+    except(KeyboardInterrupt, EOFError):
+      print("\nExiting...")
       sys.exit(1)
     if saturation < 0 or saturation > 100:
       print("Saturation must be between 0 and 100")
@@ -36,8 +42,11 @@ def main():
   elif action == "--non-hamilton":
     try:
       nodes = int(get_input("nodes> "))
-    except (ValueError, KeyboardInterrupt, EOFError):
+    except (ValueError):
       print("Nodes counts must be an integer")
+      sys.exit(1)
+    except(KeyboardInterrupt, EOFError):
+      print("\nExiting...")
       sys.exit(1)
     if nodes<=0:
       print("Nodes count must be greater than 0")
@@ -79,7 +88,7 @@ def main():
     else:
       print(f"Unknown command: {action}. Use 'help' to see available commands")
       continue
-  print("Exiting...")
+  print("\nExiting...")
 
 
 if __name__ == "__main__":
