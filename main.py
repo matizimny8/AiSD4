@@ -42,7 +42,11 @@ def main():
     if action == "print":
       graph.print_graph()
     elif action == "euler":
-      print()
+      path = graph.find_euler_cycle()
+      if path:
+        print(f"Found euler cycle: {path}")
+      else:
+        print("Euler cycle not found")
     elif action == "hamilton":
       path = graph.find_hamiltonian_cycle()
       if path:

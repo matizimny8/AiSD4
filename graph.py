@@ -101,3 +101,30 @@ class Graph:
       return path
     else:
       return None
+  def find_euler_cycle(self):
+    adj = self.get_adj_list()
+    for node, neighbors in adj.items():
+      if len(neighbors) % 2 != 0:
+        return None
+    adj_copy = {u: list(v) for u,v in adj.items()}
+    start_node = 1
+    for node in adj_copy:
+      if len(adj_copy[node]) > 0:
+        start_node = node
+        break
+    stack = [start_node]
+    path = []
+
+    while stack:
+      v = stack[-1]
+      if adj_copy[v]:
+        u = adj_copy[v].pop()
+        adj_copy[u].remove(v)
+        stack.append(u)
+      else:
+        path.append(stack.pop())
+
+    if len(path) == len(self.edges) + 1:
+      return path
+    else:
+      return None
