@@ -1,5 +1,6 @@
 import sys
 from graph import Graph
+import math
 DEFAULT_NON_HAMILTON_SATURATION = 50
 def get_input(prompt):
   if sys.stdin.isatty():
@@ -34,7 +35,10 @@ def main():
       print("\nExiting...")
       sys.exit(1)
     if saturation < 0 or saturation > 100:
-      print("Saturation must be between 0 and 100")
+      print("Saturation must be between and 100")
+      sys.exit(1)
+    if saturation < 200/(nodes-1):
+      print(f"Saturation is too low. For {nodes} nodes minimal saturation required to create a Hamiltonian cycle is {math.ceil(200/(nodes-1))}%")
       sys.exit(1)
     graph = Graph(nodes,saturation)
     graph.hamilton()
